@@ -1,0 +1,13 @@
+{
+  "name": "quest.js",
+  "version": "0.0.1",
+  "author": "Jogga <joachim@froestl.com>",
+  "description": "blog to keep track of js learnings",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jogga/quest.js.git"
+  },
+  "dependencies": {
+    "express": "~3.4.8"
+  }
+}
