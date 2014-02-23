@@ -15,6 +15,19 @@ marked.setOptions({
 });
 
 var fileContent;
+var htmlDoc = '<!DOCTYPE html><html><head><title>quest</title></head><body>{content}</body></html>'
+
+
+// Read Contents of directory
+fs.readdir('_posts', function(err, fd){
+	if( err ) {
+		console.log( 'An error occured while reading contents of directory: '+ err );
+	} else {
+		console.log( fd );
+	}
+});
+
+
 
 // Open File
 fs.readFile('_posts/test.md', {encoding: 'utf-8'}, function( err, data ) {
@@ -24,6 +37,7 @@ fs.readFile('_posts/test.md', {encoding: 'utf-8'}, function( err, data ) {
 		convertMarkdown( data );
 	}
 });
+
 
 
 // Convert Markdown to Html
@@ -37,9 +51,18 @@ function convertMarkdown( input ) {
 		if( err ) {
 			console.log( 'An error occured while converting Markdown: ' + err );
 		} else {
-			saveFile( content );
+			insertContent( content );
 		}
 	});
+}
+
+
+
+// Insert Content
+function insertContent( content ){
+	htmlDoc = htmlDoc.replace( '{content}', content );
+	console.log( htmlDoc );
+	saveFile( htmlDoc );
 }
 
 
