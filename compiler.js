@@ -1,10 +1,14 @@
 var fs = require('fs'),
-	marked = require('marked');
+	marked = require('marked'),
+	highlight = require('highlight.js');
 
 
 // Set Options of marked
 marked.setOptions({
 	renderer: new marked.Renderer(),
+	highlight: function (code) {
+		return highlight.highlightAuto(code).value;
+	},
 	gfm: true,
 	tables: true,
 	breaks: false,
