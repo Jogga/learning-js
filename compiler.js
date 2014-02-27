@@ -18,30 +18,39 @@ marked.setOptions({
 	smartypants: false
 });
 
+// Some variables for testing
+var postsDir = '_posts';
+var postPath = '_posts/test.md';
+var postDest = 'public/test.html';
 var fileContent;
 var htmlDoc = '<!DOCTYPE html><html><head><title>quest</title></head><body>{content}</body></html>'
 
 
-// Read Contents of directory
-fs.readdir('_posts', function(err, fd){
-	if( err ) {
-		console.log( 'An error occured while reading contents of directory: '+ err );
-	} else {
-		console.log( fd );
-	}
-});
+// Lists contentsof _posts folder
+function listPosts( postsDir ){
+
+	fs.readdir( postsDir, function(err, fd){
+		if( err ) {
+			console.log( 'An error occured while reading contents of directory: '+ err );
+		} else {
+			console.log( fd );
+		}
+	});
+}
 
 
 
 // Open File
-fs.readFile('_posts/test.md', {encoding: 'utf-8'}, function( err, data ) {
-	if ( err ) {
-		console.log( 'An error ocurred while opening a file: '+ err );
-	} else {
-		convertMarkdown( data );
-	}
-});
+function openPost( postPath, callback ){
 
+	fs.readFile( postPath, {encoding: 'utf-8'}, function( err, data ) {
+		if ( err ) {
+			console.log( 'An error ocurred while opening a file: '+ err );
+		} else {
+			callback( data );
+		}
+	});
+}
 
 
 // Convert Markdown to Html
@@ -55,7 +64,8 @@ function convertMarkdown( input ) {
 		if( err ) {
 			console.log( 'An error occured while converting Markdown: ' + err );
 		} else {
-			insertContent( content );
+			console.log( content );
+			return( content );
 		}
 	});
 }
@@ -64,17 +74,23 @@ function convertMarkdown( input ) {
 
 // Insert Content
 function insertContent( content ){
+
 	htmlDoc = htmlDoc.replace( '{content}', content );
 	console.log( htmlDoc );
-	saveFile( htmlDoc );
+	return( htmlDoc );
 }
 
 
 // Save File
 function saveFile( content ) {
 
-	fs.writeFile('public/test.html', content, function (err) {
+	fs.writeFile( postDest, content, function (err) {
 		if (err) throw err;
 		console.log('It\'s saved!');
 	});
 }
+
+openPost( postPath, convertMarkdown );
+
+// saveFile( insertContent( convertMarkdown( openPost( postPath ))));
+
