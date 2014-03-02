@@ -65,7 +65,7 @@ function convertMarkdown( input ) {
 			console.log( 'An error occured while converting Markdown: ' + err );
 		} else {
 			console.log( content );
-			return( content );
+			callBack( content );
 		}
 	});
 }
@@ -90,7 +90,7 @@ function saveFile( content ) {
 	});
 }
 
-openPost( postPath, convertMarkdown );
-
+openPost( postPath, convertMarkdown( input, insertContent ) );
+listPosts( postsDir );
 // saveFile( insertContent( convertMarkdown( openPost( postPath ))));
 
