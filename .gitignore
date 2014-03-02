@@ -2,3 +2,6 @@ _site/
 _posts/
 public
 node_modules
+
+# Mac
+.DS_Store
