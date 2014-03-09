@@ -19,6 +19,11 @@ marked.setOptions({
 });
 
 // Some variables for testing
+
+var config = {
+	postBase: 'posts'
+};
+
 var postsDir = '_posts';
 var postPath = '_posts/test.md';
 var postDest = 'public/test.html';
@@ -29,14 +34,13 @@ var htmlDoc = '<!DOCTYPE html><html><head><title>quest</title></head><body>{cont
 
 // Initiates Compiling
 function compile( postsDir ) {
-	collectPosts( postsDir);
+	console.log( '==========================' );
+	collectPosts( postsDir, parsePosts);
 }
 
 
 // Collect Posts
-function collectPosts( postsDir ) {
-
-	console.log( 'Collect Posts' );
+function collectPosts( postsDir, callback ) {
 
 	fs.readdir( postsDir, function(err, fd){
 
@@ -44,11 +48,8 @@ function collectPosts( postsDir ) {
 			console.log( 'An error occured while reading contents of directory: '+ err );
 		} else {
 
-			// Test
-			console.log( fd );
-
 			// Next function
-			processPosts( postsDir, fd );
+			callback( postsDir, fd );
 		}
 	});
 }
@@ -72,13 +73,13 @@ function seperateFromMeta( postString ) {
 
 
 
-
+// Trims redundant whitespace
 function trim( str ) {
 	return str.replace(/^\s+|\s+$/g,'');
 }
 
 
-// Build Post Object
+// Build Meta Object
 function parseMeta( metaString ) {
 
 	metaString = metaString.replace( /^\s*[\r\n]/gm, '');
@@ -101,24 +102,26 @@ function parseMeta( metaString ) {
 				var key = trim( metaLines[i].slice( 0, metaSeperator ) );
 				var value = trim( metaLines[i].slice( metaSeperator+1 ) );
 
+				// Save in Object
 				meta[key] = value;
 			}
 		}
 	}
-	console.log( meta.title );
 	return meta;
 }
 
 
 
 // Process Posts
-function processPosts( postsDir, postNamesArray ) {
+function parsePosts( postsDir, postNamesArray ) {
 
-	console.log( 'Process Posts ');
+	var posts = [];
+	var nav = [];
 
 	for (var i = 0; i < postNamesArray.length; i++) {
 
 		var postPath = postsDir+'/'+postNamesArray[i];
+		var count = 0;
 
 		fs.readFile( postPath, {encoding: 'utf-8'}, function( err, data ) {
 
@@ -126,13 +129,33 @@ function processPosts( postsDir, postNamesArray ) {
 				console.log( 'An error ocurred while opening a file: '+ err );
 			} else {
 
-				// console.log( data );
+				// Build Post Object
 				var post = {};
 				var postContents = seperateFromMeta( data );
-				post.meta = parseMeta( postContents[0]);
-				post.content = postContents[1];
 
-				console.log ( post );
+				post.meta = parseMeta( postContents[0] );
+				post.content = postContents[1];
+				post.body = '';
+				post.uri = buildNavAnchor( post.meta.title, post.meta.date, config.postBase );
+
+				nav.push( post.uri );
+
+				// Use marked to compile Markdown
+				marked( post.content, function( err, content ) {
+					if( err ) {
+						console.log( 'An error occured while converting Markdown: ' + err );
+					} else {
+						count++;
+						post.body = content;
+						posts.push( post );
+
+						if ( count === postNamesArray.length ){
+							console.log( 'Count ist: ' + count );
+							console.log( 'PostNamesArray.length ist: ' + postNamesArray.length );
+							buildPosts( posts, nav );
+						}
+					}
+				});
 			}
 		});
 	}
@@ -142,27 +165,54 @@ function processPosts( postsDir, postNamesArray ) {
 
 
 
-// Build Nav List
-function listFolderCtntsAsHtml( contentsArray ) {
 
-	for (var i = contentsArray.length - 1; i >= 0; i--) {
-		console.log( contentsArray[i] );
+// build Posts
+function buildPosts( postsArray, navArray ) {
+
+	console.log( navArray );
+
+	for (var i = 0; i < postsArray.length; i++) {
+		console.log( postsArray[i].uri );
+		console.log( postsArray[i].meta.title );
 	}
+	console.log( '--------------------------------' );
 }
 
 
-// Lists contentsof _posts folder
-function listPosts( postsDir ){
 
-	fs.readdir( postsDir, function(err, fd){
-		if( err ) {
-			console.log( 'An error occured while reading contents of directory: '+ err );
-		} else {
-			console.log( fd );
-			listFolderCtntsAsHtml( fd );
-		}
-	});
+
+
+// Build Nav List
+function buildNavAnchor( postTitle, postDate, postBase ) {
+
+	var postURI = '';
+
+	// Lower Case
+	postTitle = postTitle.toLowerCase();
+
+	// Replace ' ' with '_'
+	postTitle = postTitle.replace( /\s+/g, '_');
+
+	// Escape Special Characters
+	postTitle = encodeURIComponent( postTitle ); // Improve this shit!
+
+	// Remove URI Chars
+	postTitle = postTitle.replace(/\.|\!|\~|\*|\'|\(|\)/g, '' );
+
+	// Replace '.'' with '/'
+	postDate = postDate.replace( /\./g, '/');
+
+	// Add trailing '/'
+	postDate += '/';
+
+	// Build Post URI
+	postURI = postBase + '/' + postDate + postTitle + '.html';
+
+	return( postURI );
 }
+
+
+
 
 
 
@@ -191,7 +241,7 @@ function convertMarkdown( content ) {
 			console.log( 'An error occured while converting Markdown: ' + err );
 		} else {
 			console.log( content );
-			callBack( content );
+			saveFile( insertContent( content ));
 		}
 	});
 }
@@ -215,9 +265,5 @@ function saveFile( content ) {
 		console.log('It\'s saved!');
 	});
 }
-
-// openPost( postPath, convertMarkdown( input, insertContent ) );
-// listPosts( postsDir );
-// saveFile( insertContent( convertMarkdown( openPost( postPath ))));
 
 compile( postsDir );
