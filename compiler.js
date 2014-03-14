@@ -19,28 +19,34 @@ marked.setOptions({
 });
 
 // Some variables for testing
-
 var config = {
-	postBase: 'posts'
+	postBase: 'posts',
+	postsDir: '_posts/',
+	layoutsDir: '_layouts/'
 };
 
 var postsDir = '_posts';
-var postPath = '_posts/test.md';
-var postDest = 'public/test.html';
-var fileContent;
-var htmlDoc = '<!DOCTYPE html><html><head><title>quest</title></head><body>{content}</body></html>';
+
+
+
+
+
+
 
 
 
 // Initiates Compiling
 function compile( postsDir ) {
-	console.log( '==========================' );
-	collectPosts( postsDir, parsePosts);
+	collectPosts( config.postsDir );
 }
 
 
+
+
+
+
 // Collect Posts
-function collectPosts( postsDir, callback ) {
+function collectPosts( postsDir ) {
 
 	fs.readdir( postsDir, function(err, fd){
 
@@ -48,16 +54,108 @@ function collectPosts( postsDir, callback ) {
 			console.log( 'An error occured while reading contents of directory: '+ err );
 		} else {
 
-			// Next function
-			callback( postsDir, fd );
+			// Collect all Uris in NavArray
+			var fileNames = fd;
+			var navLis = [];
+
+			for (var i = 0; i < fd.length; i++) {
+				navLis.push( uriToLi( fileNameToUri( fd[i] )));
+			}
+
+			var navLis = navLis.join('');
+			console.log( navLis );
+
+			parsePosts( config.postsDir, fileNames, navLis );
 		}
 	});
 }
 
 
 
+
+
+
+
+
+
+// Process Posts
+function parsePosts( postsDir, fileNames, navLis ) {
+
+	// Iterate over all PostFiles
+	for (var i = 0; i < fileNames.length; i++) {
+
+		var postPath = postsDir+fileNames[i];
+
+		fs.readFile( postPath, {encoding: 'utf-8'}, function( err, data ) {
+
+			if ( err ) {
+				console.log( 'An error ocurred while opening a file: '+ err );
+			} else {
+
+				var postContents = seperatePostContents( data );
+
+				// Build Post Object
+				var post = {};
+				post.meta = parseMeta( postContents[0] );
+				post.content = postContents[1];
+				post.body = '';
+				post.uri = buildNavAnchor( post.meta.title, post.meta.date, config.postBase );
+
+				// Use marked to compile Markdown
+				marked( post.content, function( err, content ) {
+					if( err ) {
+						console.log( 'An error occured while converting Markdown: ' + err );
+					} else {
+						post.body = content;
+						// console.log( post );
+						buildPost( post, navLis );
+					}
+				});
+			}
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+// Build Post
+function buildPost( postObject, navLis ) {
+
+	// Path to read html from
+	var layoutPath = config.layoutsDir + postObject.meta.layout + '.html';
+
+	// Open Html File, paste post Contents
+	fs.readFile( layoutPath, {encoding: 'utf-8'}, function( err, data ) {
+
+		// TODO: Check for includes first!?
+
+		// Insert stuff
+		var post = data.replace( '{content}', postObject.body );
+		post = post.replace( '{title}', postObject.meta.title );
+		post = post.replace( '{nav}', navLis );
+		console.log( post );
+		console.log( '--------------------------------' );
+
+		// TODO: Save File
+	});
+}
+
+
+
+
+
+
+
+
+
 // Seperate Meta from Post
-function seperateFromMeta( postString ) {
+function seperatePostContents( postString ) {
 
 	var seperatorString = '---';
 	var postContents = [];
@@ -73,10 +171,23 @@ function seperateFromMeta( postString ) {
 
 
 
+
+
+
+
+
+
 // Trims redundant whitespace
 function trim( str ) {
 	return str.replace(/^\s+|\s+$/g,'');
 }
+
+
+
+
+
+
+
 
 
 // Build Meta Object
@@ -112,54 +223,6 @@ function parseMeta( metaString ) {
 
 
 
-// Process Posts
-function parsePosts( postsDir, postNamesArray ) {
-
-	var posts = [];
-	var nav = [];
-
-	for (var i = 0; i < postNamesArray.length; i++) {
-
-		var postPath = postsDir+'/'+postNamesArray[i];
-		var count = 0;
-
-		fs.readFile( postPath, {encoding: 'utf-8'}, function( err, data ) {
-
-			if ( err ) {
-				console.log( 'An error ocurred while opening a file: '+ err );
-			} else {
-
-				// Build Post Object
-				var post = {};
-				var postContents = seperateFromMeta( data );
-
-				post.meta = parseMeta( postContents[0] );
-				post.content = postContents[1];
-				post.body = '';
-				post.uri = buildNavAnchor( post.meta.title, post.meta.date, config.postBase );
-
-				nav.push( post.uri );
-
-				// Use marked to compile Markdown
-				marked( post.content, function( err, content ) {
-					if( err ) {
-						console.log( 'An error occured while converting Markdown: ' + err );
-					} else {
-						count++;
-						post.body = content;
-						posts.push( post );
-
-						if ( count === postNamesArray.length ){
-							console.log( 'Count ist: ' + count );
-							console.log( 'PostNamesArray.length ist: ' + postNamesArray.length );
-							buildPosts( posts, nav );
-						}
-					}
-				});
-			}
-		});
-	}
-}
 
 
 
@@ -167,7 +230,7 @@ function parsePosts( postsDir, postNamesArray ) {
 
 
 // build Posts
-function buildPosts( postsArray, navArray ) {
+function test( postsArray, navArray ) {
 
 	console.log( navArray );
 
@@ -175,8 +238,58 @@ function buildPosts( postsArray, navArray ) {
 		console.log( postsArray[i].uri );
 		console.log( postsArray[i].meta.title );
 	}
-	console.log( '--------------------------------' );
 }
+
+
+
+
+
+
+
+
+
+// build Nav URI from filename
+function fileNameToUri( fileName ){
+
+	postUri = fileName;
+
+	// Replace '.'' with '/'
+	postUri = postUri.replace( /\-/g, '/');
+
+	// Replace '.md' with '.html'
+	postUri = postUri.replace( /\.md\b$/m, '.html');
+
+	return postUri;
+}
+
+
+
+
+
+
+
+
+
+// insert Uri to <li>
+function uriToLi( fileName ){
+
+	// Insert Uri to A
+	var navListElem = '<li><a src="' + fileName + '">{name}</a></li>';
+
+	// Make linkName Readable
+	var linkName = fileName;
+	linkName = linkName.replace( /\-/g, ' ');
+	linkName = linkName.replace( /\.html\b$/m, '');
+
+	// Insert linkName
+	navListElem = navListElem.replace( '{name}', linkName );
+
+	return navListElem;
+}
+
+
+
+
 
 
 
@@ -216,6 +329,9 @@ function buildNavAnchor( postTitle, postDate, postBase ) {
 
 
 
+
+
+
 // Open File
 function openPost( postPath, callback ){
 
@@ -227,6 +343,13 @@ function openPost( postPath, callback ){
 		}
 	});
 }
+
+
+
+
+
+
+
 
 
 // Convert Markdown to Html
@@ -248,6 +371,12 @@ function convertMarkdown( content ) {
 
 
 
+
+
+
+
+
+
 // Insert Content
 function insertContent( content ){
 
@@ -255,6 +384,13 @@ function insertContent( content ){
 	console.log( htmlDoc );
 	return( htmlDoc );
 }
+
+
+
+
+
+
+
 
 
 // Save File
