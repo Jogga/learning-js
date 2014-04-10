@@ -1,6 +1,6 @@
 _site/*
 _posts/*
-public
+public/*
 node_modules
 
 # Mac

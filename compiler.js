@@ -78,7 +78,16 @@ function collectPosts( postsDir ) {
                     console.log( 'error while rmdir');
                 } else {
                     console.log( 'wiped directory');
-                    parsePosts( config.postsDir, fileNames, navLis );
+                    parsePosts( config.postsDir, fileNames, navLis, 0 );
+                }
+            });
+
+            // Create Index Page
+            fs.writeFile( config.publicDir+'/index.html', navLis, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('index created!');
                 }
             });
         }
@@ -145,13 +154,18 @@ function uriToLi( postUri ){
 
 
 
+
 // Process Posts
-function parsePosts( postsDir, fileNames, navLis ) {
+function parsePosts( postsDir, fileNames, navLis, count ) {
 
     // Iterate over all PostFiles
-    for (var i = 0; i < fileNames.length; i++) {
+    var times = fileNames.length;
+    var current = count;
+    console.log( current );
 
-        fs.readFile( postsDir+fileNames[i], {encoding: 'utf-8'}, function( err, data ) {
+    if( current < times ){
+
+        fs.readFile( postsDir+fileNames[current], {encoding: 'utf-8'}, function( err, data ) {
 
             if ( err ) {
                 console.log( 'An error ocurred while opening a file: '+ err );
@@ -164,7 +178,9 @@ function parsePosts( postsDir, fileNames, navLis ) {
                 post.meta = parseMeta( postContents[0] );
                 post.content = postContents[1];
                 post.body = '';
-                post.uri = buildNavAnchor( post.meta.title, post.meta.date, config.postBase );
+                //post.uri = buildNavAnchor( post.meta.title, post.meta.date, config.postBase );
+                console.log( fileNames[current]);
+                post.uri = fileNameToUri( fileNames[current]);
 
                 // Use marked to compile Markdown
                 marked( post.content, function( err, content ) {
@@ -172,12 +188,14 @@ function parsePosts( postsDir, fileNames, navLis ) {
                         console.log( 'An error occured while converting Markdown: ' + err );
                     } else {
                         post.body = content;
-                        // console.log( post );
+                        parsePosts( postsDir, fileNames, navLis, current+1 );
                         buildPost( post, navLis );
                     }
                 });
             }
         });
+    } else {
+        console.log('iterated over everything!');
     }
 }
 
