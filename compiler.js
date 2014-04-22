@@ -25,7 +25,7 @@ var config = {
     publicDir: 'public',
     postBase: 'posts',
     postsDir: '_posts/',
-    layoutsDir: '_layouts/'
+    layoutsDir: '_layouts/',
 };
 
 
@@ -171,25 +171,23 @@ function parsePosts( postsDir, fileNames, navLis, count ) {
                 console.log( 'An error ocurred while opening a file: '+ err );
             } else {
 
-                var postContents = seperatePostContents( data );
+                var postContents = seperatePostContents(data);
 
                 // Build Post Object
                 var post = {};
-                post.meta = parseMeta( postContents[0] );
+                post.meta = parseMeta(postContents[0]);
                 post.content = postContents[1];
                 post.body = '';
-                //post.uri = buildNavAnchor( post.meta.title, post.meta.date, config.postBase );
-                console.log( fileNames[current]);
-                post.uri = fileNameToUri( fileNames[current]);
+                post.uri = fileNameToUri(fileNames[current]);
 
                 // Use marked to compile Markdown
-                marked( post.content, function( err, content ) {
+                marked(post.content, function (err, content) {
                     if( err ) {
                         console.log( 'An error occured while converting Markdown: ' + err );
                     } else {
                         post.body = content;
-                        parsePosts( postsDir, fileNames, navLis, current+1 );
-                        buildPost( post, navLis );
+                        parsePosts(postsDir, fileNames, navLis, current+1);
+                        buildPost(post, navLis);
                     }
                 });
             }
