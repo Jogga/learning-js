@@ -1,7 +1,7 @@
-_site/*
-_posts/*
-public/*
+_posts
+public
 node_modules
+.sass-cache
 
 # Mac
 .DS_Store
