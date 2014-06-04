@@ -10,7 +10,7 @@ module.exports = function (grunt) {
                     relativeAssets: true,
                     imagesDir:'public/img',
                     fontsDir: 'public/font',
-                    sassDir: 'dev/scss',
+                    sassDir: '_dev/scss',
                     cssDir: 'public/css',
                     outputStyle: 'expanded',
                     environment: 'development'
@@ -20,7 +20,7 @@ module.exports = function (grunt) {
 
         concat: {
             dev: {
-                src: 'dev/js/**/*.js',
+                src: '_dev/js/**/*.js',
                 dest: 'public/js/main.js'
             }
         },
@@ -31,11 +31,11 @@ module.exports = function (grunt) {
                 livereload: true
             },
             js: {
-                files: ['dev/js/**/*.js',],
+                files: ['_dev/js/**/*.js',],
                 tasks: ['concat:dev']
             },
             css: {
-                files: ['dev/scss/**/*.scss'],
+                files: ['_dev/scss/**/*.scss'],
                 tasks: ['compass:dev']
             }
         }

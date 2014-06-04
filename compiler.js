@@ -26,6 +26,7 @@ var config = {
     postBase: 'posts',
     postsDir: '_posts/',
     layoutsDir: '_layouts/',
+    blogName: 'quest.js - my journey to JS'
 };
 
 
@@ -82,19 +83,29 @@ function collectPosts( postsDir ) {
                 }
             });
 
-            // Create Index Page
-            fs.writeFile( config.publicDir+'/index.html', navLis, function (err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('index created!');
-                }
-            });
+            createIndex(navLis);
         }
     });
 }
 
 
+
+
+
+function createIndex (navLis) {
+
+    fs.readFile( '_layouts/index.html', {encoding: 'utf-8'}, function( err, data ) {
+
+
+        // Insert stuff
+        var postBody = data.replace( '{title}', config.blogName );
+        postBody = postBody.replace( '{nav}', navLis );
+
+
+        // save this File
+        saveFile( postBody, 'index.html' );
+    });
+}
 
 
 /*
