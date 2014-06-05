@@ -1,7 +1,7 @@
 var fs = require('fs');
 var marked = require('marked');
 var highlight = require('highlight.js');
-var mkPath = require('mkPath');
+var mkPath = require('mkpath');
 var rmdir = require('rimraf');
 
 
