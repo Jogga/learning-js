@@ -15,6 +15,17 @@ module.exports = function (grunt) {
                     outputStyle: 'expanded',
                     environment: 'development'
                 }
+            },
+            dist: {
+               options: {
+                   relativeAssets: true,
+                   imagesDir:'public/img',
+                   fontsDir: 'public/font',
+                   sassDir: '_dev/scss',
+                   cssDir: 'public/css',
+                   outputStyle: 'compressed',
+                   environment: 'production'
+               }
             }
         },
 
@@ -59,5 +70,12 @@ module.exports = function (grunt) {
         'concat:html5shiv',
         'concat:dev',
         'watch'
+    ]);
+
+    grunt.registerTask('dist', [
+        'compass:dist',
+        'concat:normalizeCss',
+        'concat:html5shiv',
+        'concat:dev'
     ]);
 };
