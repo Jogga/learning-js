@@ -19,6 +19,14 @@ module.exports = function (grunt) {
         },
 
         concat: {
+            html5shiv: {
+                src: 'bower_components/html5shiv/dist/html5shiv.min.js',
+                dest: 'public/js/html5shiv.min.js'
+            },
+            normalizeCss: {
+                src: 'bower_components/normalize-css/normalize.css',
+                dest: 'public/css/normalize.css'
+            },
             dev: {
                 src: '_dev/js/**/*.js',
                 dest: 'public/js/main.js'
@@ -47,6 +55,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'compass:dev',
+        'concat:normalizeCss',
+        'concat:html5shiv',
         'concat:dev',
         'watch'
     ]);

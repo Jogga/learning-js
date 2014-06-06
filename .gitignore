@@ -1,6 +1,7 @@
 _posts
 public
 node_modules
+bower_components
 .sass-cache
 
 # Mac

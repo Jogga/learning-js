@@ -1,0 +1,18 @@
+/**
+ * Article Styles for QuestJS
+ * @author Jogga <joachim@froestl.com>
+ */
+
+.qst-date {
+    text-align: center;
+    //color: $qst-clr-grey;
+}
+
+.qst-article {
+    h1 {
+        margin: {
+            top: 0;
+            bottom: 50px;
+        }
+    }
+}

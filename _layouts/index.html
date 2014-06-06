@@ -3,13 +3,33 @@
     <head>
         <meta charset="utf-8">
         <title>{title}</title>
+        <link rel="stylesheet" type="text/css" href="./css/normalize.css">
         <link rel="stylesheet" type="text/css" href="./css/main.css">
+
+        <!-- HTML5 Shiv -->
+        <!--[if lt IE 9]>
+            <script src="bower_components/html5shiv/html5shiv.js"></script>
+        <![endif]-->
+
+        <!-- Typekit -->
+        <script type="text/javascript" src="//use.typekit.net/wmm6tiy.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     </head>
     <body>
+        <header>
+            <div class="qst-logo">
+                <img src="./img/qst-logo.svg" alt="A Paper Hat">
+                <!-- quest.js -->
+            </div>
+        </header>
+        <p>What this is all about</p>
+        <nav>
+            <ul>{nav}</ul>
+        </nav>
         <footer>
-            <nav><ul>{nav}</ul></nav>
             <a href="#">about</a>
-            <a href="#">imprint</a>
+            <a href="">twitter</a>
+            <a href="">github</a>
         </footer>
     </body>
 </html>

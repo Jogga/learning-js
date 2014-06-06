@@ -232,6 +232,7 @@ function buildPost( postObject, navLis ) {
         // Insert stuff
         var postDestination = postObject.uri;
         var postBody = data.replace( '{content}', postObject.body );
+        postBody = postBody.replace( '{date}', postObject.meta.date );
         postBody = postBody.replace( '{title}', postObject.meta.title );
         postBody = postBody.replace( '{nav}', navLis );
 

@@ -3,15 +3,58 @@
     <head>
         <meta charset="utf-8">
         <title>{title}</title>
+        <link rel="stylesheet" type="text/css" href="../../../../css/normalize.css">
         <link rel="stylesheet" type="text/css" href="../../../../css/main.css">
+
+        <!-- HTML5 Shiv -->
+        <!--[if lt IE 9]>
+            <script src="bower_components/html5shiv/html5shiv.js"></script>
+        <![endif]-->
+
+        <!-- Typekit -->
+        <script type="text/javascript" src="//use.typekit.net/wmm6tiy.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     </head>
 
-    <body>
-        <div>{content}</div>
+    <body class="qst-article">
+        <header>
+            <a class="qst-logo" href="../../../../index.html">
+                <?xml version="1.0" encoding="utf-8"?>
+                <svg version="1.1" id="qst-hat" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 92.2 92.2" enable-background="new 0 0 92.2 92.2" xml:space="preserve">
+                <g>
+                    <path class="qst-hat" fill="#3B6DD1" d="M87.3,55c0,0-0.1-0.1-0.1-0.1c0,0,0-0.1-0.1-0.1c-0.7-0.6-2.3-1.9-3.9-3.3c-6.5-5.4-6.7-5.5-6.9-5.5
+                        c-0.2,0-1.1,0-1.7,0c-11-11.1-24.2-24.4-27.2-27.1c0,0,0,0,0,0c-0.1-0.1-0.2-0.1-0.3-0.2c0,0,0.1,0,0.1,0c0,0,0,0,0,0
+                        c0,0-0.3,0-0.3,0c-0.3,0-0.6,0-0.9,0.1c-0.2,0-0.4,0.1-0.5,0.2c-2.6,2.4-12.5,12.4-22.1,22.1l-5.6,5.6c-0.8,0.1-1.3,0.2-1.4,0.2
+                        C15.2,47,5,58.2,4.9,58.3c-0.3,0.3-0.4,0.9-0.2,1.3C4.8,60,5,60.1,5.3,60.1l0,0c0,0,0.1,0,0.4,0c0,0.5,0.1,0.8,0.4,0.9l0.1,0
+                        L6.3,61c13.6-0.6,39.6-1.9,40.6-1.9c0,0,0,0,0,0c0.7,0,37.7,1.5,38.1,1.5c0.2,0,0.4,0,0.8-0.5c0.1,0,0.2,0,0.3,0
+                        c0.6,0,0.8-0.3,0.9-0.5c0.1-0.2,0.2-0.7-0.4-1.3c0.3-0.7,0.6-1.5,1-2.6C87.6,55.5,87.5,55.2,87.3,55z M77.3,54.2l-0.6-6.7
+                        c1.8,1.4,6.6,5.4,8.9,7.3C83.5,54.7,79.3,54.4,77.3,54.2z M73.8,46.7c-6.3-0.9-21.1-2.8-25.8-3.4c0-2.6-0.1-19.5-0.1-22.5
+                        C52.3,25,63.9,36.7,73.8,46.7z M46,20.1c0-0.3,0.1-0.3,0.1-0.3v0c0,0,0.4-0.1,0.6-0.1c0,0,0,0,0,0c0,0,0.1,0.1,0.1,0.2l0.1,2.9
+                        c0,5.4,0.1,17.9,0.1,20.4c-0.1,0-0.2,0-0.2,0l-0.1,0l-0.1,0c0,0-0.3,0-0.7,0.1C45.8,31.5,46,20.2,46,20.1z M23.9,41.8
+                        c8.6-8.8,17.5-17.7,21-21.1c0,2.5-0.2,12.4,0,22.7c-4.9,0.6-19.4,2.4-25.7,3.2L23.9,41.8z M5.6,59c0.8-0.9,9.7-10.5,10.8-11.1
+                        c1.7-0.2,28.4-3.5,30.3-3.8c10.5,1.4,25.9,3.4,29.1,3.9l0.6,7.2l0.4,0c1.2,0.1,3.9,0.3,6.2,0.5c0.8,1,1.7,2,2.6,3.2l0.1,0.1
+                        c0,0,0.1,0.1,0.1,0.1c-6.4-0.3-38.7-3-39.1-3C46.7,56.1,9.5,58.8,5.6,59C5.6,59.1,5.6,59,5.6,59z M47.1,58.2
+                        c-0.7-0.1-35,1.6-40,1.8c0,0,0,0,0,0c7-0.5,39.8-2.9,39.8-2.9c0.2,0,14.8,1.2,26.4,2.1C62.3,58.8,47.5,58.2,47.1,58.2z M85.8,57.5
+                        c-0.5-0.6-0.9-1.2-1.4-1.7c0.9,0.1,1.6,0.1,2,0.1C86.2,56.5,86,57,85.8,57.5z"/>
+                    <path class="qst-hat" fill="#3B6DD1" d="M47.1,18.7C47.1,18.7,47.1,18.7,47.1,18.7C47.1,18.7,47.1,18.7,47.1,18.7L47.1,18.7z"/>
+                </g>
+                </svg>
+            </a>
+        </header>
+        <article>
+            <div class="qst-date">{date}</div>
+            {content}
+        </article>
         <footer>
-            <nav><ul>{nav}</ul></nav>
-            <a href="#">about</a>
-            <a href="#">imprint</a>
+            <p class="qst-disclaimer">
+                This Blog is intended to help me learn Java Script. The Article and Code Examples above might contain Errors or Misconceptions. If you encounter such errors, please let me know via email!
+            </p>
+            <div class="qst-footernav">
+                <a href="#">about</a>
+                <a href="">twitter</a>
+                <a href="">github</a>
+            </div>
         </footer>
     </body>
 </html>
