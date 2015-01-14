@@ -1,9 +1,7 @@
-_posts
 public
 node_modules
 bower_components
 .sass-cache
-config.js
 
 # Mac
 .DS_Store
