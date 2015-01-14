@@ -1,0 +1,74 @@
+/**
+* Typographic Styles for QuestJS
+*/
+
+
+/* font stacks */
+@qst-fnt-serif: Georgia, serif;
+@qst-fnt-sans: "depot-new-web", sans-serif;
+@qst-fnt-mono: Monaco, monospace;
+
+
+/* base font */
+body {
+	font-size: 20px;
+	font-family: @qst-fnt-sans;
+	font-weight: 400;
+	line-height: 1.4em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Code Display Styles*/
+pre, code {
+	font-family: @qst-fnt-mono;
+	font-size: 14px;
+	line-height: 1.6em;
+}
+
+
+code {
+
+}
+
+
+/* Headline Styles */
+h1, h2, h3, h4, h5, h6 {
+	font-family: @qst-fnt-sans;
+	font-weight: 700;
+	line-height: 1em;
+}
+
+h1 {
+	text-align: center;
+	font-size: 40px;
+}
+
+h2 {
+	margin-top: 40px;
+}
+
+
+/* Link Styles */
+a {
+	-webkit-font-smoothing: antialiased;
+	color: @qst-clr-red;
+	text-decoration: none;
+
+	&:hover {
+		color: @qst-clr-black;
+	}
+}
+
+
+/* List Styles */
+ul {
+	padding-left: 20px;
+	padding-right: 0;
+	margin-left: 0;
+	margin-right: 0;
+	li {
+		list-style-type: disc;
+	}
+}

@@ -1,0 +1,57 @@
+/*
+* Branding for QuestJS
+* @author Jogga <joachim@froestl.com>
+*/
+
+
+
+.qst-logo {
+	display: block;
+	overflow: hidden;
+	width: 130px;
+	padding: 10px;
+	margin: 50px auto 30px;
+
+	.qst-path-light {
+		transition: fill 400ms;
+		fill: @qst-clr-grey-lgt;
+	}
+	.qst-path-medium {
+		transition: fill 400ms;
+		fill: @qst-clr-grey-lgt;
+	}
+	.qst-path-dark {
+		transition: fill 400ms;
+		fill: @qst-clr-black;
+	}
+	h1 {
+		margin: 5px 0 0;
+		color: @qst-clr-black;
+		font-weight: 700;
+		font-size: 30px;
+		transition: color 400ms;
+	}
+
+	&:hover {
+		.qst-path-light {
+			transition: fill 75ms;
+			fill: @qst-clr-red-lgt;
+		}
+		.qst-path-medium {
+			transition: fill 75ms;
+			fill: @qst-clr-red-lgt;
+		}
+		.qst-path-dark {
+			transition: fill 75ms;
+			fill: @qst-clr-red;
+		}
+		h1 {
+			transition: color 75ms;
+			color: @qst-clr-red;
+		}
+	}
+}
+
+.qst-logo-img {
+	display: block;
+}

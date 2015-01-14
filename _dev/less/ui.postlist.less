@@ -1,0 +1,35 @@
+.qst-post-list {
+	margin: 2em 0;
+	padding: 0;
+
+
+	li {
+		padding: 2px 0;
+		border-top: 1px dashed @qst-clr-grey-lgt;
+		list-style-type: none;
+		&:first-child {
+			border-top: 0px;
+		}
+	}
+	a {
+		display: block;
+		padding: 8px 10px;
+		margin: 0 -10px;
+		border-radius: 2px;
+		transition: background 400ms, color 400ms;
+
+		&:hover {
+			transition: background 75ms, color 75ms;
+			background-color: @qst-clr-grey-xlgt;
+		}
+	}
+
+	.qst-post-title {
+
+	}
+	.qst-post-date {
+		display: block;
+		color: @qst-clr-grey;
+		float: right;
+	}
+}

@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>{title}</title>
-        <link rel="stylesheet" type="text/css" href="./css/normalize.css">
-        <link rel="stylesheet" type="text/css" href="./css/main.css">
+{% include head %}
 
-        <!-- HTML5 Shiv -->
-        <!--[if lt IE 9]>
-            <script src="bower_components/html5shiv/html5shiv.js"></script>
-        <![endif]-->
+<body class="qst-page-index">
+{% include page.header %}
 
-        <!-- Typekit -->
-        <script type="text/javascript" src="//use.typekit.net/wmm6tiy.js"></script>
-        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    </head>
-    <body>
-        <header>
-            <div class="qst-logo">
-                <img src="./img/qst-logo.svg" alt="A Paper Hat">
-                <!-- quest.js -->
-            </div>
-        </header>
-        <p>What this is all about</p>
-        <nav>
-            <ul>{nav}</ul>
-        </nav>
-        <footer>
-            <a href="#">about</a>
-            <a href="">twitter</a>
-            <a href="">github</a>
-        </footer>
-    </body>
+<main>
+<h1>My journey into the world of Java&nbsp;Script.</h1>
+<p>This Blog will accompany me while learn to code Java&nbsp;Script. Following the idea that I would best make sense of it, if I write my learnings down.</p>
+<p>I'm a beginner, so my postings and code examples will contain bugs, errors, or misconceptions. Please point them out!</p>
+
+
+<ul class="qst-post-list">
+{{ indexLinks }}
+</ul>
+
+</main>
+
+{% include page.footer %}
+</body>
 </html>
